@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription — Parenthèse Yoga & Bien-être · 26 avril 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: #F7F5F0;
+      color: #2C2C2A;
+      min-height: 100vh;
+      padding: 2.5rem 1rem;
+    }
+
+    .page-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 0.5px solid #D3D1C7;
+      padding: 3rem 2.5rem;
+    }
+
+    /* Header */
+    .form-header { text-align: center; margin-bottom: 2.5rem; }
+    .form-header .symbol { font-size: 32px; margin-bottom: 0.75rem; color: #3B6D11; }
+    .form-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px; font-weight: 400;
+      line-height: 1.2; letter-spacing: 0.02em;
+      color: #2C2C2A;
+    }
+    .form-header h1 em { font-style: italic; }
+    .form-header .date-tag {
+      display: inline-block; margin-top: 0.75rem;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #5F5E5A; border: 0.5px solid #D3D1C7;
+      border-radius: 20px; padding: 4px 14px;
+    }
+
+    /* Progress */
+    .progress-bar { height: 2px; background: #D3D1C7; border-radius: 2px; margin-bottom: 2.5rem; overflow: hidden; }
+    .progress-fill { height: 100%; background: #639922; border-radius: 2px; transition: width 0.4s ease; width: 25%; }
+
+    /* Steps nav */
+    .steps-nav { display: flex; align-items: center; justify-content: center; margin-bottom: 2.5rem; }
+    .step-dot { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .step-dot .dot {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1.5px solid #B4B2A9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 500; color: #888780;
+      background: #fff; transition: all 0.3s;
+    }
+    .step-dot .dot-label { font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: #888780; transition: color 0.3s; }
+    .step-dot.active .dot { background: #3B6D11; border-color: #3B6D11; color: #EAF3DE; }
+    .step-dot.active .dot-label { color: #3B6D11; }
+    .step-dot.done .dot { background: #639922; border-color: #639922; color: #fff; }
+    .step-dot.done .dot-label { color: #639922; }
+    .step-line { width: 52px; height: 1.5px; background: #D3D1C7; margin-bottom: 20px; transition: background 0.3s; }
+    .step-line.done { background: #639922; }
+
+    /* Panels */
+    .step-panel { display: none; }
+    .step-panel.active { display: block; animation: fadeSlide 0.3s ease; }
+    @keyframes fadeSlide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Section titles */
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 400;
+      color: #2C2C2A; margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 0.5px solid #D3D1C7;
+    }
+    .subsection-label {
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #5F5E5A; margin: 1.75rem 0 0.75rem;
+      padding-top: 1.5rem; border-top: 0.5px solid #D3D1C7;
+    }
+    .subsection-label .req { color: #639922; }
+
+    /* Form layout */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 0; }
+    .form-group { margin-bottom: 1.25rem; }
+
+    .form-group label {
+      display: block; font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #5F5E5A; margin-bottom: 6px;
+    }
+    .form-group label .req { color: #639922; margin-left: 2px; }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+      color: #2C2C2A; background: #fff;
+      border: 0.5px solid #B4B2A9; border-radius: 8px;
+      transition: border-color 0.2s;
+      appearance: none; -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { outline: none; border-color: #639922; box-shadow: 0 0 0 3px rgba(99,153,34,0.08); }
+    .form-group textarea { resize: vertical; min-height: 84px; line-height: 1.6; }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+    }
+
+    /* Source grid */
+    .source-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 0.75rem; }
+    .source-card {
+      border: 0.5px solid #B4B2A9; border-radius: 8px;
+      padding: 12px 10px; text-align: center; cursor: pointer;
+      transition: all 0.2s; user-select: none; background: #fff;
+    }
+    .source-card:hover { border-color: #639922; background: #F7F5F0; }
+    .source-card.selected { background: #EAF3DE; border-color: #639922; }
+    .source-card .src-icon { font-size: 18px; margin-bottom: 5px; }
+    .source-card .src-name { font-size: 11px; font-weight: 500; color: #2C2C2A; line-height: 1.3; }
+    .source-card.selected .src-name { color: #27500A; }
+    .source-detail { display: none; margin-top: 0.5rem; animation: fadeSlide 0.2s ease; }
+    .source-detail.visible { display: block; }
+
+    /* Niveau cards */
+    .niveau-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .niveau-card {
+      border: 0.5px solid #B4B2A9; border-radius: 8px;
+      padding: 14px 12px; text-align: center; cursor: pointer;
+      transition: all 0.2s; background: #fff;
+    }
+    .niveau-card:hover { border-color: #639922; }
+    .niveau-card.selected { background: #EAF3DE; border-color: #639922; }
+    .niveau-card .niv-icon { font-size: 22px; margin-bottom: 6px; }
+    .niveau-card .niv-name { font-size: 12px; font-weight: 500; color: #2C2C2A; }
+    .niveau-card .niv-desc { font-size: 10px; color: #888780; margin-top: 3px; line-height: 1.4; }
+    .niveau-card.selected .niv-name { color: #27500A; }
+
+    /* Checkboxes */
+    .checkbox-group { display: flex; flex-direction: column; gap: 14px; }
+    .checkbox-item { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+    .checkbox-item input[type="checkbox"] { display: none; }
+    .checkbox-item .check-box {
+      width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
+      border: 1.5px solid #B4B2A9; border-radius: 5px;
+      background: #fff; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .checkbox-item .check-box::after {
+      content: ''; display: block;
+      width: 5px; height: 9px;
+      border: 2px solid transparent; border-top: none; border-left: none;
+      transform: rotate(45deg) translateY(-1px);
+      transition: border-color 0.15s;
+    }
+    .checkbox-item input[type="checkbox"]:checked + .check-box {
+      background: #3B6D11; border-color: #3B6D11;
+    }
+    .checkbox-item input[type="checkbox"]:checked + .check-box::after {
+      border-color: #fff;
+    }
+    .checkbox-item span { font-size: 13px; color: #5F5E5A; line-height: 1.5; }
+
+    /* Payment box */
+    .info-box {
+      background: #F7F5F0; border-radius: 12px;
+      border: 0.5px solid #D3D1C7; padding: 1.25rem; margin-bottom: 1.25rem;
+    }
+    .info-box .box-title {
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #5F5E5A; margin-bottom: 1rem;
+    }
+    .tarif-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0; border-bottom: 0.5px solid #D3D1C7; font-size: 13px;
+    }
+    .tarif-row:last-child { border-bottom: none; }
+    .tarif-price { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 500; color: #3B6D11; }
+
+    .pay-grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 13px; }
+    .pay-key { color: #5F5E5A; padding: 3px 0; white-space: nowrap; }
+    .pay-val { color: #2C2C2A; font-weight: 500; padding: 3px 0; }
+
+    /* Consent note */
+    .note-box {
+      background: #F7F5F0; border-left: 2px solid #639922;
+      border-radius: 0 8px 8px 0; padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem; font-size: 12px; color: #5F5E5A; line-height: 1.7;
+    }
+
+    .form-header .form-desc {
+      font-size: 13px; color: #5F5E5A; margin-top: 0.6rem; line-height: 1.7;
+    }
+    .form-header .form-desc em { font-style: italic; color: #888780; font-size: 12px; }
+    .bilingual { display: flex; flex-direction: column; gap: 1px; margin-bottom: 6px; }
+    .bilingual .fr { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #2C2C2A; font-weight: 500; }
+    .bilingual .en { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #888780; font-style: italic; }
+    .bilingual .req { color: #639922; margin-left: 2px; }
+    .btn-row { display: flex; gap: 12px; margin-top: 2rem; justify-content: flex-end; }
+    .btn-back {
+      padding: 10px 24px; font-family: 'DM Sans', sans-serif; font-size: 13px;
+      background: transparent; color: #5F5E5A;
+      border: 0.5px solid #B4B2A9; border-radius: 8px; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-back:hover { background: #F7F5F0; }
+    .btn-next {
+      padding: 10px 28px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      background: #3B6D11; color: #EAF3DE;
+      border: none; border-radius: 8px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.2s;
+    }
+    .btn-next:hover { background: #27500A; }
+    .btn-submit {
+      padding: 11px 36px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      background: #27500A; color: #EAF3DE;
+      border: none; border-radius: 8px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.2s;
+    }
+    .btn-submit:hover { background: #173404; }
+
+    /* Success */
+    .success-panel { text-align: center; padding: 3rem 2rem; display: none; }
+    .success-panel.active { display: block; animation: fadeSlide 0.4s ease; }
+    .success-check {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: #EAF3DE; border: 1.5px solid #639922;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem; font-size: 24px; color: #3B6D11;
+    }
+    .success-panel h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; font-weight: 400; margin-bottom: 0.75rem;
+    }
+    .success-panel p { font-size: 14px; color: #5F5E5A; line-height: 1.8; }
+
+    /* Responsive */
+    @media (max-width: 520px) {
+      .page-wrapper { padding: 2rem 1.25rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .source-grid { grid-template-columns: repeat(2, 1fr); }
+      .niveau-grid { grid-template-columns: 1fr; }
+      .step-line { width: 30px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <div class="form-header">
+    <div class="symbol">☽</div>
+    <h1><em>Parenthèse</em> Yoga & Bien-être</h1>
+    <p class="form-desc">Une journée conviviale pour se détendre, et prendre soin de soi<br><em>A convivial day to unwind and take care of yourself</em></p>
+    <span class="date-tag">Dimanche 26 Avril 2026 · Sunday April 26, 2026</span>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- Steps nav -->
+  <div class="steps-nav" id="stepsNav">
+    <div class="step-dot active"><div class="dot">1</div><div class="dot-label">Identité</div></div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-dot"><div class="dot">2</div><div class="dot-label">Pratique</div></div>
+    <div class="step-line" id="line2"></div>
+    <div class="step-dot"><div class="dot">3</div><div class="dot-label">Urgence</div></div>
+    <div class="step-line" id="line3"></div>
+    <div class="step-dot"><div class="dot">4</div><div class="dot-label">Paiement</div></div>
+  </div>
+
+  <!-- ═══════ STEP 1 — Identité ═══════ -->
+  <div class="step-panel active" id="step1">
+    <div class="section-title">Informations personnelles<br><span style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;font-style:italic;color:#888780;">Personal information</span></div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="bilingual"><span class="fr">Prénom <span class="req">*</span></span><span class="en">First name</span></label>
+        <input type="text" id="prenom" placeholder="Marie" required>
+      </div>
+      <div class="form-group">
+        <label class="bilingual"><span class="fr">Nom <span class="req">*</span></span><span class="en">Last name</span></label>
+        <input type="text" id="nom" placeholder="Dupont" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="bilingual"><span class="fr">Date de naissance <span class="req">*</span></span><span class="en">Date of birth</span></label>
+        <input type="date" id="ddn" required>
+      </div>
+      <div class="form-group">
+        <label class="bilingual"><span class="fr">Téléphone <span class="req">*</span></span><span class="en">Phone number</span></label>
+        <input type="tel" id="tel" placeholder="06 00 00 00 00" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="bilingual"><span class="fr">Adresse e-mail <span class="req">*</span></span><span class="en">Email address</span></label>
+      <input type="email" id="email" placeholder="marie.dupont@email.com" required>
+    </div>
+
+    <div class="form-group">
+      <label class="bilingual"><span class="fr">Adresse postale</span><span class="en">Postal address</span></label>
+      <input type="text" id="adresse" placeholder="12 rue des Lilas, 75010 Paris">
+    </div>
+
+    <div class="form-group" style="margin-top:1.5rem; padding-top:1.5rem; border-top:0.5px solid #D3D1C7;">
+      <label class="bilingual"><span class="fr">Où et comment avez-vous entendu parler de l'événement ?</span><span class="en">Where and how did you hear about this event?</span></label>
+      <textarea id="source" rows="3" placeholder="Ex : Instagram, bouche à oreille, flyer… / e.g. Instagram, word of mouth, flyer…" style="min-height:80px;"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-next" onclick="goTo(2)">Suivant / Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════ STEP 2 — Pratique ═══════ -->
+  <div class="step-panel" id="step2">
+    <div class="section-title">Pratique & Préférences<br><span style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;font-style:italic;color:#888780;">Practice & Preferences</span></div>
+
+    <!-- Avez-vous déjà pratiqué le yoga ? -->
+    <div class="form-group">
+      <label class="bilingual">
+        <span class="fr">Avez-vous déjà pratiqué le yoga ? <span class="req">*</span></span>
+        <span class="en">Have you ever practiced yoga?</span>
+      </label>
+      <div class="niveau-grid" id="experienceGrid">
+        <div class="niveau-card" onclick="selectExperience(this, 'non')">
+          <div class="niv-icon">🙅</div>
+          <div class="niv-name">Non</div>
+          <div class="niv-desc">No</div>
+        </div>
+        <div class="niveau-card" onclick="selectExperience(this, 'occ')">
+          <div class="niv-icon">🌱</div>
+          <div class="niv-name">Oui, occasionnellement</div>
+          <div class="niv-desc">Yes, occasionally</div>
+        </div>
+        <div class="niveau-card" onclick="selectExperience(this, 'reg')">
+          <div class="niv-icon">🧘</div>
+          <div class="niv-name">Oui, régulièrement</div>
+          <div class="niv-desc">Yes, regularly</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Niveau — visible seulement si oui -->
+    <div id="niveauSection" style="display:none; animation: fadeSlide 0.3s ease;">
+      <div class="form-group">
+        <label class="bilingual">
+          <span class="fr">Quel est votre niveau de pratique ?</span>
+          <span class="en">What is your practice level?</span>
+        </label>
+        <div class="niveau-grid" id="niveauGrid">
+          <div class="niveau-card" onclick="selectNiveau(this)">
+            <div class="niv-icon">🌿</div>
+            <div class="niv-name">Débutant·e</div>
+            <div class="niv-desc">Beginner</div>
+          </div>
+          <div class="niveau-card" onclick="selectNiveau(this)">
+            <div class="niv-icon">🌳</div>
+            <div class="niv-name">Intermédiaire</div>
+            <div class="niv-desc">Intermediate</div>
+          </div>
+          <div class="niveau-card" onclick="selectNiveau(this)">
+            <div class="niv-icon">⭐</div>
+            <div class="niv-name">Avancé·e</div>
+            <div class="niv-desc">Advanced</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="bilingual">
+          <span class="fr">Style(s) de yoga pratiqué(s)</span>
+          <span class="en">Yoga style(s) practiced</span>
+        </label>
+        <input type="text" id="styles" placeholder="Ex : Hatha, Vinyasa, Yin, Kundalini…">
+      </div>
+    </div>
+
+    <!-- Régime / Allergies -->
+    <div class="form-group" style="margin-top:1.25rem; padding-top:1.25rem; border-top:0.5px solid #D3D1C7;">
+      <label class="bilingual">
+        <span class="fr">Régime alimentaire / Allergies</span>
+        <span class="en">Dietary requirements / Allergies</span>
+      </label>
+      <textarea id="allergies" placeholder="Ex : végétarien·ne, sans gluten, allergie aux fruits à coque… / e.g. vegetarian, gluten-free, nut allergy…"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goTo(1)">← Retour / Back</button>
+      <button class="btn-next" onclick="goTo(3)">Suivant / Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════ STEP 3 — Urgence ═══════ -->
+  <div class="step-panel" id="step3">
+    <div class="section-title">Contact d'urgence<br><span style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;font-style:italic;color:#888780;">Emergency contact</span></div>
+
+    <div class="form-group">
+      <label class="bilingual"><span class="fr">Nom & Prénom du contact <span class="req">*</span></span><span class="en">Full name</span></label>
+      <input type="text" id="urgence-nom" placeholder="Jean Dupont">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="bilingual"><span class="fr">Lien de parenté <span class="req">*</span></span><span class="en">Relationship</span></label>
+        <select id="urgence-lien">
+          <option value="">— Choisir / Choose —</option>
+          <option>Conjoint·e / Partenaire — Partner</option>
+          <option>Parent — Parent</option>
+          <option>Enfant — Child</option>
+          <option>Ami·e — Friend</option>
+          <option>Autre — Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="bilingual"><span class="fr">Téléphone <span class="req">*</span></span><span class="en">Phone number</span></label>
+        <input type="tel" id="urgence-tel" placeholder="06 00 00 00 00">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="bilingual"><span class="fr">Informations médicales utiles</span><span class="en">Relevant medical information</span></label>
+      <textarea id="urgence-medical" placeholder="Ex : traitement en cours, contre-indications, blessures récentes… / e.g. ongoing treatment, contraindications, recent injuries…"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goTo(2)">← Retour / Back</button>
+      <button class="btn-next" onclick="goTo(4)">Suivant / Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════ STEP 4 — Paiement ═══════ -->
+  <div class="step-panel" id="step4">
+    <div class="section-title">Paiement & Confirmation<br><span style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;font-style:italic;color:#888780;">Payment & Confirmation</span></div>
+
+    <!-- Tarif unique -->
+    <div class="info-box">
+      <div class="box-title">Tarif / Registration fee</div>
+      <div class="tarif-row" style="border:none;">
+        <span style="font-size:14px;">Journée complète — Full day</span>
+        <span class="tarif-price">60 €</span>
+      </div>
+    </div>
+
+    <!-- Mode de règlement -->
+    <div class="form-group">
+      <label class="bilingual"><span class="fr">Mode de règlement <span class="req">*</span></span><span class="en">Payment method</span></label>
+      <select id="reglement" onchange="togglePaymentInfo(this.value)">
+        <option value="">— Sélectionner / Select —</option>
+        <option value="virement">Virement bancaire — Bank transfer</option>
+        <option value="cheque">Chèque — Cheque</option>
+      </select>
+    </div>
+
+    <!-- Infos virement (conditionnelles) -->
+    <div id="infoVirement" style="display:none;">
+      <div class="info-box">
+        <div class="box-title">Coordonnées bancaires / Bank details</div>
+        <div class="pay-grid">
+          <span class="pay-key">Bénéficiaire / Beneficiary</span>
+          <span class="pay-val">Anelyse Weber</span>
+          <span class="pay-key">IBAN</span>
+          <span class="pay-val">FR76 1950 6000 1128 1389 3795 155</span>
+          <span class="pay-key">BIC</span>
+          <span class="pay-val">AGRIFRPP895</span>
+          <span class="pay-key">Référence / Reference</span>
+          <span class="pay-val">YOGA26AVR + votre nom / your name</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Infos chèque (conditionnelles) -->
+    <div id="infoCheque" style="display:none;">
+      <div class="note-box">
+        Chèque à l'ordre de <strong>Anelyse Weber</strong>. L'adresse d'envoi vous sera communiquée par e-mail après validation de votre inscription.<br>
+        <em style="font-size:11px;">Cheque payable to <strong>Anelyse Weber</strong>. The mailing address will be sent to you by email after your registration is confirmed.</em>
+      </div>
+    </div>
+
+    <!-- Conditions d'annulation -->
+    <div class="info-box" style="margin-top:0.25rem;">
+      <div class="box-title">Conditions d'annulation / Cancellation policy</div>
+      <p style="font-size:13px; color:#2C2C2A; line-height:1.8; margin-bottom:0.75rem;">
+        En cas d'annulation <strong>plus de 21 jours avant</strong> la journée, vous serez remboursé·e du montant intégral de votre paiement, déduction faite de 5 € de frais d'administration. <strong>Entre 8 et 20 jours avant</strong> la journée, seule la moitié du paiement sera remboursée. <strong>À moins de 7 jours</strong> de la journée, le paiement est non-remboursable.
+      </p>
+      <p style="font-size:12px; color:#888780; line-height:1.8; font-style:italic;">
+        If you cancel <strong>more than 21 days before</strong> the event, you will receive a full refund minus a €5 administration fee. <strong>Between 8 and 20 days before</strong> the event, only half of the payment will be refunded. <strong>Within 7 days</strong> of the event, no refund will be issued.
+      </p>
+    </div>
+
+    <!-- Remarques -->
+    <div class="form-group">
+      <label class="bilingual"><span class="fr">Questions ou remarques</span><span class="en">Questions or comments</span></label>
+      <textarea id="remarques" placeholder="Informations complémentaires… / Additional information…"></textarea>
+    </div>
+
+    <!-- Consentements -->
+    <div class="form-group">
+      <div class="checkbox-group">
+        <label class="checkbox-item">
+          <input type="checkbox" id="consent1" required>
+          <span class="check-box"></span>
+          <span>J'accepte les conditions d'annulation et que mes données personnelles soient utilisées dans le cadre de cet événement, conformément au RGPD. <em style="color:#888780; font-size:12px;">/ I accept the cancellation policy and agree to my personal data being used for this event in accordance with GDPR.</em> <span class="req">*</span></span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="consent2" required>
+          <span class="check-box"></span>
+          <span>Je certifie ne pas avoir de contre-indication médicale à la pratique du yoga. <em style="color:#888780; font-size:12px;">/ I confirm I have no medical contraindication to practicing yoga.</em> <span class="req">*</span></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goTo(3)">← Retour / Back</button>
+      <button class="btn-submit" onclick="submitForm()">Envoyer mon inscription / Submit ✓</button>
+    </div>
+  </div>
+
+  <!-- ═══════ SUCCÈS ═══════ -->
+  <div class="success-panel" id="successPanel">
+    <div class="success-check">✓</div>
+    <h2>Inscription envoyée !</h2>
+    <p>Merci pour votre inscription à la journée<br><em>Yoga &amp; Bien-être</em> du 26 avril.<br><br>
+    Un e-mail de confirmation vous sera envoyé sous 48h<br>avec toutes les informations pratiques.</p>
+  </div>
+
+</div><!-- /page-wrapper -->
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 4;
+
+  function updateProgress() {
+    document.getElementById('progressFill').style.width = (currentStep / totalSteps * 100) + '%';
+  }
+
+  function goTo(step) {
+    const dots = document.querySelectorAll('.step-dot');
+
+    document.getElementById('step' + currentStep).classList.remove('active');
+    dots[currentStep - 1].classList.remove('active');
+
+    if (step > currentStep) {
+      dots[currentStep - 1].classList.add('done');
+      dots[currentStep - 1].querySelector('.dot').textContent = '✓';
+      if (currentStep <= 3) document.getElementById('line' + currentStep).classList.add('done');
+    } else {
+      dots[currentStep - 1].classList.remove('done');
+      dots[currentStep - 1].querySelector('.dot').textContent = currentStep;
+    }
+
+    currentStep = step;
+    document.getElementById('step' + currentStep).classList.add('active');
+    dots[currentStep - 1].classList.add('active');
+    dots[currentStep - 1].classList.remove('done');
+    dots[currentStep - 1].querySelector('.dot').textContent = currentStep;
+
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function togglePaymentInfo(val) {
+    document.getElementById('infoVirement').style.display = val === 'virement' ? 'block' : 'none';
+    document.getElementById('infoCheque').style.display  = val === 'cheque'   ? 'block' : 'none';
+  }
+
+
+  function selectExperience(el, key) {
+    document.querySelectorAll('#experienceGrid .niveau-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    const section = document.getElementById('niveauSection');
+    if (key === 'occ' || key === 'reg') {
+      section.style.display = 'block';
+    } else {
+      section.style.display = 'none';
+      document.querySelectorAll('#niveauGrid .niveau-card').forEach(c => c.classList.remove('selected'));
+    }
+  }
+
+  function selectNiveau(el) {
+    document.querySelectorAll('#niveauGrid .niveau-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  // ⚙️ REMPLACEZ cette URL par votre endpoint Formspree (ex: https://formspree.io/f/xxxxxxxx)
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xgonlnew';
+
+  async function submitForm() {
+    const c1 = document.getElementById('consent1');
+    const c2 = document.getElementById('consent2');
+    if (!c1.checked || !c2.checked) {
+      alert('Merci de cocher les cases de consentement obligatoires avant de valider.');
+      return;
+    }
+
+    // Collecte de toutes les réponses
+    const data = {
+      // Étape 1 — Identité
+      'Prénom':               document.getElementById('prenom').value,
+      'Nom':                  document.getElementById('nom').value,
+      'Date de naissance':    document.getElementById('ddn').value,
+      'Téléphone':            document.getElementById('tel').value,
+      'E-mail':               document.getElementById('email').value,
+      'Adresse postale':      document.getElementById('adresse').value,
+      'Source(s)':            document.getElementById('source')?.value || '—',
+      // Étape 2 — Pratique
+      'Pratique yoga':        document.querySelector('#experienceGrid .niveau-card.selected .niv-name')?.textContent || '—',
+      'Niveau yoga':          document.querySelector('#niveauGrid .niveau-card.selected .niv-name')?.textContent || '—',
+      'Style(s) yoga':        document.getElementById('styles')?.value || '—',
+      'Régime/Allergies':     Array.from(document.querySelectorAll('#step2 input[type=checkbox]:checked')).map(cb => cb.nextElementSibling.textContent.trim()).join(', ') || 'Aucun',
+      'Précisions allergies': document.getElementById('allergies')?.value || '—',
+      // Étape 3 — Urgence
+      'Contact urgence':      document.getElementById('urgence-nom')?.value || '—',
+      'Lien parenté':         document.getElementById('urgence-lien')?.value || '—',
+      'Tél. urgence':         document.getElementById('urgence-tel')?.value || '—',
+      'Infos médicales':      document.getElementById('urgence-medical')?.value || '—',
+      // Étape 4 — Paiement
+      'Tarif':                '60 €',
+      'Mode règlement':       document.getElementById('reglement')?.value || '—',
+      'Remarques':            document.getElementById('remarques')?.value || '—',
+    };
+
+    // Affichage du bouton en chargement
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = 'Envoi en cours…';
+    btn.disabled = true;
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        document.getElementById('step4').classList.remove('active');
+        document.getElementById('stepsNav').style.display = 'none';
+        document.getElementById('progressFill').style.width = '100%';
+        document.querySelector('.progress-bar').style.opacity = '0.3';
+        document.getElementById('successPanel').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        btn.textContent = 'Envoyer mon inscription ✓';
+        btn.disabled = false;
+        alert('Une erreur est survenue. Merci de réessayer ou de nous contacter directement par e-mail.');
+      }
+    } catch (err) {
+      btn.textContent = 'Envoyer mon inscription ✓';
+      btn.disabled = false;
+      alert('Impossible d\'envoyer le formulaire. Vérifiez votre connexion internet et réessayez.');
+    }
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
